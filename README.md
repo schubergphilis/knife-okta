@@ -1,5 +1,8 @@
 # knife-okta
 
+[![Build Status](https://travis-ci.org/schubergphilis/knife-okta.svg?branch=master)](https://travis-ci.org/schubergphilis/knife-okta)
+[![Gem](https://img.shields.io/gem/v/knife-okta.svg)](https://rubygems.org/gems/knife-okta)
+
 knife-okta is a knife plugin to interact with the Okta API.
 
 The initial use case is to create data bags based on Okta group membership.
