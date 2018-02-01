@@ -11,6 +11,11 @@ notifications:
     on_success: change
     on_failure: always
 
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+\.\d+$/
+
 before_install: gem install bundler -v 1.16.0
 
 deploy:
