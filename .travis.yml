@@ -1,0 +1,27 @@
+language: ruby
+
+rvm:
+  - 2.4.2
+
+cache:
+- bundler
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+branches:
+  only:
+    - master
+
+before_install: gem install bundler -v 1.16.0
+
+deploy:
+  provider: rubygems
+  api_key:
+    secure: DKQGAQxv3wYY8dGYzwI0yeZjoIeGDx21MzHC0U3S65yNwfNSGVg+Tg3rAKZhuWe7IS+FUNqgKecWjfVUSD6BZgOB+tucCGsMG7e2R8T60fxSfpmChZl1DMVuEV7SbbV5MqM0qTIoqmxMYk2tVlhYfPY24SxKzhru8TAL1HjeyJhISdYS5sgn0+4ZUQ4GsgUC0VqEisETNfSt9LebHZb54t3neh4qGH9Qq1jKY/ePqS8PRAaaSQUIbKcIg6WBXSKpHXzKnpNxPeZ1ar9N8XRRdKA635PvLLYtLkDo4cGLYphIzR++k0WwHDrOBgA77GWsWMZvCCXHQNsdFs3GTmC1POS50xUMj8KIpzDVB3O2HpYGcXxwMWf3mAUPjvk1fi60iya3vxu6J0QhsvIOYqYlZ5OVdT9gBbhzSj6katBi+OGJ/IoUQfWN0JBhb+Fg+k2z3Ip/DKp1EZ2U+omofBhSFxUH90ZetH5zfL3UIMz0/7USo45Z+UA7svPCa7SHeKOASekMIuhhe8U1xdLnxXONjnHLAXD4QLR8e+podCLjHf2TDXY0NgrIr+wLc22I/7X1sNlEkcwRkRpDuKzLbiI4CC5BLdK8tMhpSO4fSlNIrgz75FaIZKXKSZMB813am9NVCyuD6Nubqr4oUVJ5VqfZuMTxZLP8CN3+z8TC1hcgUx8=
+  gem: knife-okta
+  on:
+    tags: true
+    repo: schubergphilis/knife-okta
