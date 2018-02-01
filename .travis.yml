@@ -11,6 +11,10 @@ notifications:
     on_success: change
     on_failure: always
 
+branches:
+  only:
+    - master
+
 before_install: gem install bundler -v 1.16.0
 
 deploy:
