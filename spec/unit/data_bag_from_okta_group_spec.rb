@@ -318,6 +318,31 @@ describe Chef::Knife::DataBagFromOktaGroup do
         subject.send :create_data_bag_item_file
       end
     end
+
+    context "when given multiple okta groups with common users" do
+      it "creates data bag json in a temp dir with expected content" do
+        subject.instance_variable_set(:@okta_groups, ["everyone", "simpsons"])
+        config[:okta_attribute] = "displayName"
+
+        file = double("file")
+        hash = {
+          "id" => "allowed_users",
+          "displayName" => [
+            "Bart Simpson",
+            "Chris Griffin",
+            "Homer Simpson",
+            "Peter Griffin",
+            "Stan Smith",
+          ],
+        }
+
+        allow(subject).to receive(:data_bag_item_file).and_return("/tmp/#{data_bag_item_name}.json")
+        expect(File).to receive(:open).with("/tmp/#{data_bag_item_name}.json", "w").and_yield(file)
+        expect(file).to receive(:write).with(JSON.pretty_generate(hash))
+
+        subject.send :create_data_bag_item_file
+      end
+    end
   end
 
   describe "#display_data_bag_item_changes" do

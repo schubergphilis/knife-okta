@@ -159,7 +159,7 @@ class Chef
           end
         end
 
-        values.compact.sort
+        values.compact.sort.uniq
       end
 
       def same_as_existing_data_bag_item?
