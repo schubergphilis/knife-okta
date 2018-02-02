@@ -237,6 +237,46 @@ describe Chef::Knife::DataBagFromOktaGroup do
     end
   end
 
+  describe "#setup" do
+    context "with a single okta group" do
+      before(:each) do
+        subject.name_args = [data_bag_name, data_bag_item_name, "everyone"]
+        subject.send :setup
+      end
+
+      it "@data_bag_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_name)).to eq(data_bag_name)
+      end
+
+      it "@data_bag_item_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_item_name)).to eq(data_bag_item_name)
+      end
+
+      it "@okta_groups has expected value" do
+        expect(subject.instance_variable_get(:@okta_groups)).to eq(["everyone"])
+      end
+    end
+
+    context "with multiple okta groups" do
+      before(:each) do
+        subject.name_args = [data_bag_name, data_bag_item_name, "family guy,simpsons"]
+        subject.send :setup
+      end
+
+      it "@data_bag_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_name)).to eq(data_bag_name)
+      end
+
+      it "@data_bag_item_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_item_name)).to eq(data_bag_item_name)
+      end
+
+      it "@okta_groups has expected value" do
+        expect(subject.instance_variable_get(:@okta_groups)).to eq(["family guy", "simpsons"])
+      end
+    end
+  end
+
   describe "#create_data_bag_if_missing" do
     context "when data bag does not exist" do
       # Lifted from https://github.com/chef/chef/blob/master/spec/unit/knife/data_bag_create_spec.rb#L61-L67

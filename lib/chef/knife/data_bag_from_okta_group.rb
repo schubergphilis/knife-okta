@@ -68,10 +68,7 @@ class Chef
       def run
         validate_arguments
         validate_okta_config
-
-        @data_bag_name = @name_args.shift
-        @data_bag_item_name = @name_args.shift
-        @okta_groups = @name_args
+        setup
 
         begin
           Chef::DataBag.validate_name!(@data_bag_name)
@@ -129,6 +126,12 @@ class Chef
           ui.fatal("You must use specify an Okta API token, either using --okta-token or knife[:okta_token] in your config.")
           exit(1)
         end
+      end
+
+      def setup
+        @data_bag_name = @name_args.shift
+        @data_bag_item_name = @name_args.shift
+        @okta_groups = @name_args.shift.split(',')
       end
 
       def tmpdir
