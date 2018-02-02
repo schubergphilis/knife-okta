@@ -237,6 +237,46 @@ describe Chef::Knife::DataBagFromOktaGroup do
     end
   end
 
+  describe "#setup" do
+    context "with a single okta group" do
+      before(:each) do
+        subject.name_args = [data_bag_name, data_bag_item_name, "everyone"]
+        subject.send :setup
+      end
+
+      it "@data_bag_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_name)).to eq(data_bag_name)
+      end
+
+      it "@data_bag_item_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_item_name)).to eq(data_bag_item_name)
+      end
+
+      it "@okta_groups has expected value" do
+        expect(subject.instance_variable_get(:@okta_groups)).to eq(["everyone"])
+      end
+    end
+
+    context "with multiple okta groups" do
+      before(:each) do
+        subject.name_args = [data_bag_name, data_bag_item_name, "family guy,simpsons"]
+        subject.send :setup
+      end
+
+      it "@data_bag_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_name)).to eq(data_bag_name)
+      end
+
+      it "@data_bag_item_name has expected value" do
+        expect(subject.instance_variable_get(:@data_bag_item_name)).to eq(data_bag_item_name)
+      end
+
+      it "@okta_groups has expected value" do
+        expect(subject.instance_variable_get(:@okta_groups)).to eq(["family guy", "simpsons"])
+      end
+    end
+  end
+
   describe "#create_data_bag_if_missing" do
     context "when data bag does not exist" do
       # Lifted from https://github.com/chef/chef/blob/master/spec/unit/knife/data_bag_create_spec.rb#L61-L67
@@ -308,6 +348,31 @@ describe Chef::Knife::DataBagFromOktaGroup do
             "Chris Griffin",
             "Homer Simpson",
             "Peter Griffin",
+          ],
+        }
+
+        allow(subject).to receive(:data_bag_item_file).and_return("/tmp/#{data_bag_item_name}.json")
+        expect(File).to receive(:open).with("/tmp/#{data_bag_item_name}.json", "w").and_yield(file)
+        expect(file).to receive(:write).with(JSON.pretty_generate(hash))
+
+        subject.send :create_data_bag_item_file
+      end
+    end
+
+    context "when given multiple okta groups with common users" do
+      it "creates data bag json in a temp dir with expected content" do
+        subject.instance_variable_set(:@okta_groups, ["everyone", "simpsons"])
+        config[:okta_attribute] = "displayName"
+
+        file = double("file")
+        hash = {
+          "id" => "allowed_users",
+          "displayName" => [
+            "Bart Simpson",
+            "Chris Griffin",
+            "Homer Simpson",
+            "Peter Griffin",
+            "Stan Smith",
           ],
         }
 
