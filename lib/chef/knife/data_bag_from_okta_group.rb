@@ -205,12 +205,12 @@ class Chef
 
       def data_bag_item_additions
         return attribute_key_values if data_bag_item_data.nil?
-        attribute_key_values - data_bag_item_data[config[:okta_attribute].to_sym]
+        attribute_key_values - data_bag_item_data[config[:okta_attribute]]
       end
 
       def data_bag_item_removals
         return [] if data_bag_item_data.nil?
-        data_bag_item_data[config[:okta_attribute].to_sym] - attribute_key_values
+        data_bag_item_data[config[:okta_attribute]] - attribute_key_values
       end
 
       def display_data_bag_item_additions
@@ -230,7 +230,7 @@ class Chef
 
         if data_bag_item_data.nil?
           display_data_bag_item_additions
-        elsif data_bag_item_data.keys.reject { |e| e == :id }.shift.to_s == config[:okta_attribute]
+        elsif data_bag_item_data.keys.reject { |e| e == "id" }.shift.to_s == config[:okta_attribute]
           display_data_bag_item_removals
           display_data_bag_item_additions
         else
