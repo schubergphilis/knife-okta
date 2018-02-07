@@ -419,8 +419,8 @@ describe Chef::Knife::DataBagFromOktaGroup do
 
       let(:data_bag_item) do
         {
-          "id": "allowed_users",
-          "displayName": [],
+          "id"          => "allowed_users",
+          "displayName" => [],
         }
       end
 
@@ -446,8 +446,8 @@ describe Chef::Knife::DataBagFromOktaGroup do
 
       let(:data_bag_item) do
         {
-          "id": "allowed_users",
-          "displayName": [ "Bart Simpson", "Homer Simpson", "Stan Smith" ],
+          "id"          => "allowed_users",
+          "displayName" => [ "Bart Simpson", "Homer Simpson", "Stan Smith" ],
         }
       end
 
@@ -471,8 +471,8 @@ describe Chef::Knife::DataBagFromOktaGroup do
 
       let(:data_bag_item) do
         {
-          "id": "allowed_users",
-          "displayName": [ "Homer Simpson", "Stan Smith" ],
+          "id"          => "allowed_users",
+          "displayName" => [ "Homer Simpson", "Stan Smith" ],
         }
       end
 
@@ -573,8 +573,8 @@ describe Chef::Knife::DataBagFromOktaGroup do
 
     let(:data_bag_item) do
       {
-        "id": "allowed_users",
-        "displayName": [
+        "id"          => "allowed_users",
+        "displayName" => [
           "Stan Smith",
         ],
       }
