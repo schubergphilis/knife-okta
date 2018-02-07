@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 
 * Fix returned group hash - previously the first group that matched the name was returned, now we only return groups with `:type => okta_group`
+* Fix how changes are displayed:
+  * New and old data bags will be correctly compared
+  * Now caching the data bag response to speed things up a bit
 
 ## 0.1.1 (2018-03-06)
 
