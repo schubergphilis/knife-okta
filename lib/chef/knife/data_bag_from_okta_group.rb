@@ -266,7 +266,7 @@ class Chef
       end
 
       def group_hash(group_name)
-        group_hash = groups.select { |group| group[:profile][:name] =~ /^#{group_name}$/i }.shift
+        group_hash = groups.select { |group| group[:type] == "OKTA_GROUP" && group[:profile][:name] =~ /^#{group_name}$/i }.shift
         if group_hash.nil?
           ui.fatal("Cannot find a group with the name \"#{group_name}\" in the specified Okta tenant")
           exit(1)
