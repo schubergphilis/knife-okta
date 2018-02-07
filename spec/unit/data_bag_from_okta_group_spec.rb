@@ -37,9 +37,9 @@ describe Chef::Knife::DataBagFromOktaGroup do
   let(:okta_client) { double("Oktakit") }
   let(:okta_groups) do
     [
-      { :id => "00gdqt4doz0QC1eF40h7", :profile => { :name => "Everyone" } },
-      { :id => "00gdrphd5bUykSq4u0h7", :profile => { :name => "Family Guy" } },
-      { :id => "00gdrpbvraOhKH6PF0h7", :profile => { :name => "Simpsons" } },
+      { :id => "00gdqt4doz0QC1eF40h7", :type => "OKTA_GROUP", :profile => { :name => "Everyone" } },
+      { :id => "00gdrphd5bUykSq4u0h7", :type => "OKTA_GROUP", :profile => { :name => "Family Guy" } },
+      { :id => "00gdrpbvraOhKH6PF0h7", :type => "OKTA_GROUP", :profile => { :name => "Simpsons" } },
     ]
   end
   let(:okta_group_membership_everyone) do
@@ -515,6 +515,51 @@ describe Chef::Knife::DataBagFromOktaGroup do
         expect(subject.ui).not_to receive(:info)
 
         subject.send :display_data_bag_item_members
+      end
+    end
+  end
+
+  describe "#group_hash" do
+    context "when no group is found" do
+      let(:okta_groups) do
+        [
+          { :id => "00gdrpbvraOhKH6PF0h6", :type => "APP_GROUP", :profile => { :name => "Simpsons" } },
+        ]
+      end
+
+      it "prints fatal and exits 1" do
+        expect(subject.ui).to receive(:fatal)
+          .with("Cannot find a group with the name \"simpsons\" in the specified Okta tenant")
+        expect { subject.send :group_hash, "simpsons" }.to exit_with_code(1)
+      end
+    end
+
+    context "when there is one group type with matching name" do
+      let(:okta_groups) do
+        [
+          { :id => "00gdrpbvraOhKH6PF0h7", :type => "OKTA_GROUP", :profile => { :name => "Simpsons" } },
+        ]
+      end
+
+      it "returns group with type okta_group" do
+        expect(subject.send(:group_hash, "simpsons")).to eq(
+          { :id => "00gdrpbvraOhKH6PF0h7", :type => "OKTA_GROUP", :profile => { :name => "Simpsons" } }
+        )
+      end
+    end
+
+    context "when there is two group types with matching name" do
+      let(:okta_groups) do
+        [
+          { :id => "00gdrpbvraOhKH6PF0h6", :type => "APP_GROUP", :profile => { :name => "Simpsons" } },
+          { :id => "00gdrpbvraOhKH6PF0h7", :type => "OKTA_GROUP", :profile => { :name => "Simpsons" } },
+        ]
+      end
+
+      it "returns group with type okta_group" do
+        expect(subject.send(:group_hash, "simpsons")).to eq(
+          { :id => "00gdrpbvraOhKH6PF0h7", :type => "OKTA_GROUP", :profile => { :name => "Simpsons" } }
+        )
       end
     end
   end
