@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 0.1.2 (2018-03-07)
 
 ### Fixed
 
@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
   * New and old data bags will be correctly compared
   * Now caching the data bag response to speed things up a bit
 
-## 0.1.1 (2018-03-06)
+## 0.1.1 (2018-02-06)
 
 ### Fixed
 
