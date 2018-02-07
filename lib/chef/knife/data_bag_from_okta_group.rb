@@ -171,7 +171,8 @@ class Chef
       end
 
       def data_bag_item_data
-        rest.get("data/#{@data_bag_name}/#{@data_bag_item_name}")
+        return @data_bag_item_data if @data_bag_item_data
+        @data_bag_item_data = rest.get("data/#{@data_bag_name}/#{@data_bag_item_name}")
       rescue Net::HTTPServerException
         nil
       end
